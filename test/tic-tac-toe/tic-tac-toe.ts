@@ -39,16 +39,18 @@ export function stateIsTerminalTicTacToe(state: TicTacToeState): boolean {
       state.board[i][0] === state.board[i][1] &&
       state.board[i][1] === state.board[i][2] &&
       state.board[i][0] !== 0
-    )
+    ) {
       return true
+    }
 
     // check cols to see if there is a winner
     if (
       state.board[0][i] === state.board[1][i] &&
       state.board[1][i] === state.board[2][i] &&
       state.board[0][i] !== 0
-    )
+    ) {
       return true
+    }
   }
 
   // check diags to see if there is a winner
@@ -56,15 +58,17 @@ export function stateIsTerminalTicTacToe(state: TicTacToeState): boolean {
     state.board[0][0] === state.board[1][1] &&
     state.board[1][1] === state.board[2][2] &&
     state.board[0][0] !== 0
-  )
+  ) {
     return true
+  }
 
   if (
     state.board[0][2] === state.board[1][1] &&
     state.board[1][1] === state.board[2][0] &&
     state.board[0][2] !== 0
-  )
+  ) {
     return true
+  }
 
   // check to see if the board is full and therefore a draw
   const flattenBoard = state.board.reduce((p, c) => p.concat(c))
