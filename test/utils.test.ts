@@ -31,8 +31,8 @@ describe('The loopFor function', () => {
         //
       })
       const time = now() - start
-      expect(time).toBeGreaterThan(98)
-      expect(time).toBeLessThan(102)
+      expect(time).toBeGreaterThan(95)
+      expect(time).toBeLessThan(105)
     })
   })
   describe('when called with 100 milliseconds', () => {
@@ -42,8 +42,8 @@ describe('The loopFor function', () => {
         //
       })
       const time = now() - start
-      expect(time).toBeGreaterThan(98)
-      expect(time).toBeLessThan(102)
+      expect(time).toBeGreaterThan(95)
+      expect(time).toBeLessThan(105)
     })
   })
   describe('when called with 10 turns', () => {
