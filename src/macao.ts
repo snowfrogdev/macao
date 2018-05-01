@@ -70,15 +70,16 @@ export default class Macao<State extends Playerwise, Action> {
    *
    *
    * @param {{
-   *       generateActions: GenerateActions<State, Action>;
-   *       applyAction: ApplyAction<State, Action>;
-   *       stateIsTerminal: StateIsTerminal<State>;
-   *       calculateReward: CalculateReward<State>;
+   *       generateActions: GenerateActions<State, Action>
+   *       applyAction: ApplyAction<State, Action>
+   *       stateIsTerminal: StateIsTerminal<State>
+   *       calculateReward: CalculateReward<State>
    *     }} funcs
    * @param {{
-   *       duration: number;
-   *       explorationParam?: number;
+   *       duration: number
+   *       explorationParam?: number
    *     }} config
+   * @returns {this}
    * @memberof Macao
    */
   init(
@@ -92,7 +93,8 @@ export default class Macao<State extends Playerwise, Action> {
       duration: number
       explorationParam?: number
     }
-  ): void {
+  ): this {
     this.controller_.init(funcs, config)
+    return this
   }
 }

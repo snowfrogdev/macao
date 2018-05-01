@@ -1,4 +1,20 @@
 /**
+ * When running in browsers supporting performance.now(), this function will
+ * return the time elapsed, in milliseconds, since the time origin. If running
+ * in environments that don't support performance.now() it will use Date.now();
+ * @hidden
+ * @internal
+ * @returns {number} - The returned value represents the time elapsed, in milliseconds, since the
+ * time origin or since the UNIX epoch.
+ */
+export const now =
+  !window.performance || !window.performance.now || !window.performance.timing
+    ? Date.now
+    : function() {
+        return window.performance.now()
+      }
+
+/**
  * A function that return a random whole number between
  * `min` and `max`.
  * @hidden
@@ -50,15 +66,15 @@ export const spliceRandom = <T>(array: T[]): T => {
 export const loopFor = (time: number) => {
   return {
     milliseconds: (callback: () => any) => {
-      const start = performance.now()
-      while (performance.now() - start < time) {
+      const start = now()
+      while (now() - start < time) {
         callback()
       }
     },
     seconds: (callback: () => any) => {
-      const start = performance.now()
+      const start = now()
       const t = time * 1000
-      while (performance.now() - start < t) {
+      while (now() - start < t) {
         callback()
       }
     },

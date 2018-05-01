@@ -1,5 +1,4 @@
-import { getRandomIntInclusive, spliceRandom, loopFor } from '../src/utils'
-
+import { getRandomIntInclusive, spliceRandom, loopFor, now } from '../src/utils'
 describe('The getRandomIntInclusive function', () => {
   describe('when given the numbers 15 and 62', () => {
     it('should return a number between 15 and 62, inclusively.', () => {
@@ -25,26 +24,26 @@ describe('The spliceRandom function', () => {
 })
 
 describe('The loopFor function', () => {
-  xdescribe('when called with 0.1 seconds', () => {
+  describe('when called with 0.1 seconds', () => {
     it('should loop for 0.1 seconds', () => {
-      const start = performance.now()
+      const start = now()
       loopFor(0.1).seconds(() => {
         //
       })
-      const time = performance.now() - start
-      expect(time).toBeGreaterThan(99)
-      expect(time).toBeLessThan(101)
+      const time = now() - start
+      expect(time).toBeGreaterThan(98)
+      expect(time).toBeLessThan(102)
     })
   })
-  xdescribe('when called with 100 milliseconds', () => {
+  describe('when called with 100 milliseconds', () => {
     it('should loop for 100 milliseconds', () => {
-      const start = performance.now()
+      const start = now()
       loopFor(100).milliseconds(() => {
         //
       })
-      const time = performance.now() - start
-      expect(time).toBeGreaterThan(99)
-      expect(time).toBeLessThan(101)
+      const time = now() - start
+      expect(time).toBeGreaterThan(98)
+      expect(time).toBeLessThan(102)
     })
   })
   describe('when called with 10 turns', () => {

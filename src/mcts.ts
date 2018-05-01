@@ -411,10 +411,8 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
       this.backPropagate_.run(node, score)
     })
     const bestChild = this.bestChild_.run(rootNode, 0)
-    if (!bestChild.action) {
-      throw new Error('The selected node has no action associated with it.')
-    }
-    return bestChild.action
+
+    return bestChild.action as Action
   }
 
   /**
