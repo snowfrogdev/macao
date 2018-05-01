@@ -7,12 +7,17 @@
  * @returns {number} - The returned value represents the time elapsed, in milliseconds, since the
  * time origin or since the UNIX epoch.
  */
-export const now =
-  !window.performance || !window.performance.now || !window.performance.timing
-    ? Date.now
-    : function() {
-        return window.performance.now()
-      }
+export let now: () => number
+try {
+  now =
+    !window.performance || !window.performance.now || !window.performance.timing
+      ? Date.now
+      : function() {
+          return window.performance.now()
+        }
+} catch {
+  now = Date.now
+}
 
 /**
  * A function that return a random whole number between
