@@ -24,8 +24,8 @@ describe('The spliceRandom function', () => {
   })
 })
 
-xdescribe('The loopFor function', () => {
-  describe('when called with 0.1 seconds', () => {
+describe('The loopFor function', () => {
+  xdescribe('when called with 0.1 seconds', () => {
     it('should loop for 0.1 seconds', () => {
       const start = performance.now()
       loopFor(0.1).seconds(() => {
@@ -36,7 +36,7 @@ xdescribe('The loopFor function', () => {
       expect(time).toBeLessThan(101)
     })
   })
-  describe('when called with 100 milliseconds', () => {
+  xdescribe('when called with 100 milliseconds', () => {
     it('should loop for 100 milliseconds', () => {
       const start = performance.now()
       loopFor(100).milliseconds(() => {
