@@ -1,4 +1,4 @@
-import Macao from '../src/macao'
+import { Macao } from '../src/macao'
 import { ticTacToeFuncs, TicTacToeState } from './tic-tac-toe/tic-tac-toe'
 
 const macao = new Macao(

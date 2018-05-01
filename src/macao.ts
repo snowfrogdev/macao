@@ -16,7 +16,7 @@ import {
  * @template State
  * @template Action
  */
-export default class Macao<State extends Playerwise, Action> {
+export class Macao<State extends Playerwise, Action> {
   /**
    * @hidden
    * @internal
