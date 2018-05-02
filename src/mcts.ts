@@ -8,7 +8,6 @@ import {
   CalculateReward
 } from './classes'
 import { spliceRandom, loopFor } from './utils'
-import { performance } from 'perf_hooks'
 
 /**
  *
@@ -407,22 +406,11 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
   getAction(state: State, duration?: number): Action {
     const rootNode = this.createRootNode_(state)
     loopFor(duration || this.duration_).milliseconds(() => {
-      performance.mark('select start')
       const node = this.select_.run(rootNode, this.explorationParam_)
-      performance.mark('select end')
-      performance.mark('simulate start')
       const score = this.simulate_.run(node.mctsState.state)
-      performance.mark('simulate end')
-      performance.mark('backPropagate start')
       this.backPropagate_.run(node, score)
-      performance.mark('backPropagate end')
-      performance.measure('select', 'select start', 'select end')
-      performance.measure('simulate', 'simulate start', 'simulate end')
-      performance.measure('backPropagate', 'backPropagate start', 'backPropagate end')
     })
-
     const bestChild = this.bestChild_.run(rootNode, 0)
-
     return bestChild.action as Action
   }
 

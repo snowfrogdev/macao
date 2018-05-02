@@ -1,4 +1,4 @@
-import Macao from '../../src/macao'
+import { Macao } from '../../src/macao'
 import { ticTacToeFuncs } from './tic-tac-toe'
 
 const ticTacToeBoard = [[1, -1, 1], [-1, -1, 1], [-1, 1, -1]]

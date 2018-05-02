@@ -267,15 +267,27 @@ export function calculateRewardUTicTacToe(state: UTicTacToeState, player: number
   }
 
   // If there is no 3 in a row, the winner is whoever has won the most small boards
-  let result = 0
+  let player1 = 0
+  let player2 = 0
 
   for (const row of state.board) {
     for (const col of row) {
-      result += calculateRewardTicTacToe({ board: col }, player)
+      const result = calculateRewardTicTacToe({ board: col }, player)
+      switch (result) {
+        case 1:
+          player1++
+          break
+        case -1:
+          player2++
+          break
+      }
     }
   }
 
-  return result
+  if (player1 > player2) return 1
+  if (player2 > player1) return -1
+
+  return 0
 }
 
 export const uTicTacToeFuncs = {
