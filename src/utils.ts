@@ -91,3 +91,6 @@ export const loopFor = (time: number) => {
     }
   }
 }
+
+// Function to get the average of a numbers array
+export const arrAvg = (arr: number[]) => arr.reduce((a, b) => a + b, 0) / arr.length

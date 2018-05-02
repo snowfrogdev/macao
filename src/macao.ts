@@ -62,8 +62,8 @@ export class Macao<State extends Playerwise, Action> {
    * @returns {Action}
    * @memberof Macao
    */
-  getAction(state: State): Action {
-    return this.controller_.getAction(state)
+  getAction(state: State, duration?: number): Action {
+    return this.controller_.getAction(state, duration)
   }
 
   /**

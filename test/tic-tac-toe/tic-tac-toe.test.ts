@@ -18,7 +18,7 @@ import { MCTSState } from '../../src/classes'
 import { TicTacToeState, TicTacToeMove, ticTacToeFuncs } from './tic-tac-toe'
 import { DataStore } from '../../src/data-store'
 import { loopFor } from '../../src/utils'
-import Macao from '../../src/macao'
+import { Macao } from '../../src/macao'
 
 xdescribe('The DefaultMCTSFacade instance', () => {
   let dataStore: DataGateway<string, MCTSState<TicTacToeState, TicTacToeMove>>

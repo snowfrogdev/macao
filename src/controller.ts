@@ -126,7 +126,7 @@ export class Controller<State extends Playerwise, Action> {
    * @returns {Action}
    * @memberof Controller
    */
-  getAction(state: State): Action {
-    return this.mcts_.getAction(state)
+  getAction(state: State, duration?: number): Action {
+    return this.mcts_.getAction(state, duration)
   }
 }
