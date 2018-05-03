@@ -11,7 +11,12 @@ import { DataStore } from './data-store'
 import { DefaultSelect } from './mcts/select/select'
 import { DefaultExpand } from './mcts/expand/expand'
 import { UCB1, DefaultUCB1, DefaultBestChild } from './mcts/select/best-child/best-child'
-import { DefaultSimulate, Simulate, DecisiveMoveSimulate } from './mcts/simulate/simulate'
+import {
+  DefaultSimulate,
+  Simulate,
+  DecisiveMoveSimulate,
+  AntiDecisiveMoveSimulate
+} from './mcts/simulate/simulate'
 import { DefaultBackPropagate } from './mcts/back-propagate/back-propagate'
 
 /**
@@ -95,6 +100,14 @@ export class Controller<State extends Playerwise, Action> {
     let simulate: Simulate<State, Action>
     if (this.simulate_.includes('decisive')) {
       simulate = new DecisiveMoveSimulate(
+        funcs.stateIsTerminal,
+        funcs.generateActions,
+        funcs.applyAction,
+        funcs.calculateReward
+      )
+    }
+    if (this.simulate_.includes('anti-decisive')) {
+      simulate = new AntiDecisiveMoveSimulate(
         funcs.stateIsTerminal,
         funcs.generateActions,
         funcs.applyAction,

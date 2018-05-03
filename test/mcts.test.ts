@@ -15,7 +15,12 @@ import {
   DefaultBestChild
 } from '../src/mcts/select/best-child/best-child'
 import { Select, DefaultSelect } from '../src/mcts/select/select'
-import { Simulate, DefaultSimulate, DecisiveMoveSimulate } from '../src/mcts/simulate/simulate'
+import {
+  Simulate,
+  DefaultSimulate,
+  DecisiveMoveSimulate,
+  AntiDecisiveMoveSimulate
+} from '../src/mcts/simulate/simulate'
 import { BackPropagate, DefaultBackPropagate } from '../src/mcts/back-propagate/back-propagate'
 import { loopFor } from '../src/utils'
 
@@ -204,6 +209,38 @@ describe('The DecisiveMoveSimulate instance', () => {
         result += simulate.run(state)
       })
       expect(result).toBe(-50)
+    })
+  })
+})
+
+describe('The AntiDecisiveMoveSimulate instance', () => {
+  let simulate = new AntiDecisiveMoveSimulate(
+    ticTacToeFuncs.stateIsTerminal,
+    ticTacToeFuncs.generateActions,
+    ticTacToeFuncs.applyAction,
+    ticTacToeFuncs.calculateReward
+  )
+  it('returns a number that is either 1, 0 or -1', () => {
+    const ticTacToeBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    const state: TicTacToeState = {
+      board: ticTacToeBoard,
+      player: 1
+    }
+    expect(simulate.run(state)).toBeGreaterThanOrEqual(-1)
+    expect(simulate.run(state)).toBeLessThanOrEqual(1)
+  })
+  describe('When the opponent has a winning move', () => {
+    it('should always play that move', () => {
+      let result = 0
+      loopFor(50).turns(() => {
+        const ticTacToeBoard = [[1, -1, 1], [1, 1, -1], [-1, 0, 0]]
+        const state: TicTacToeState = {
+          board: ticTacToeBoard,
+          player: 1
+        }
+        result += simulate.run(state)
+      })
+      expect(result).toBe(0)
     })
   })
 })

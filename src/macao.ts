@@ -79,10 +79,10 @@ export class Macao<State extends Playerwise, Action> {
     },
     config: {
       duration: number
-      explorationParam: number
+      explorationParam?: number
       /**
        * An array of the `simulate` algorithm enhancements you wish to use.
-       * Valid options: "decisive".
+       * Valid options: "decisive", "anti-decisive".
        */
       simulate?: string[]
     }
