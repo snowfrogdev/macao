@@ -27,20 +27,4 @@ describe('The Macao instance', () => {
       expect(macao.getAction(state)).toBeDefined()
     })
   })
-
-  describe('when calling init', () => {
-    it('should return itself for chaining', () => {
-      expect(
-        macao.init(
-          {
-            stateIsTerminal: ticTacToeFuncs.stateIsTerminal,
-            generateActions: ticTacToeFuncs.generateActions,
-            applyAction: ticTacToeFuncs.applyAction,
-            calculateReward: ticTacToeFuncs.calculateReward
-          },
-          { duration: 50 }
-        )
-      ).toBe(macao)
-    })
-  })
 })

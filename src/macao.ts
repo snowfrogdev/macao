@@ -1,4 +1,4 @@
-import { DefaultMCTSFacade } from './mcts'
+import { DefaultMCTSFacade } from './mcts/mcts'
 import { Controller } from './controller'
 import {
   Playerwise,
@@ -6,7 +6,7 @@ import {
   ApplyAction,
   StateIsTerminal,
   CalculateReward
-} from './classes'
+} from './entities'
 
 /**
  * The `Macao` class represents a Monte Carlo tree search that can be easily
@@ -65,7 +65,9 @@ export class Macao<State extends Playerwise, Action> {
    * @param {CalculateReward<State>} funcs.calculateReward
    * @param {object} config Configuration options
    * @param {number} config.duration Run time of the algorithm, in milliseconds.
-   * @param {number | undefined} config.explorationParam - The exploration parameter constant
+   * @param {number | undefined} config.explorationParam The exploration parameter constant.
+   * @param {string[]} config.simulate An array of the simulation algorithm enhancements
+   * you wish to use.
    * used in [UCT](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search). Defaults to 1.414.
    */
   constructor(
@@ -77,7 +79,12 @@ export class Macao<State extends Playerwise, Action> {
     },
     config: {
       duration: number
-      explorationParam?: number
+      explorationParam: number
+      /**
+       * An array of the `simulate` algorithm enhancements you wish to use.
+       * Valid options: "decisive".
+       */
+      simulate?: string[]
     }
   ) {
     this.controller_ = new Controller(funcs, config)
@@ -95,21 +102,5 @@ export class Macao<State extends Playerwise, Action> {
    */
   getAction(state: State, duration?: number): Action {
     return this.controller_.getAction(state, duration)
-  }
-
-  init(
-    funcs: {
-      generateActions: GenerateActions<State, Action>
-      applyAction: ApplyAction<State, Action>
-      stateIsTerminal: StateIsTerminal<State>
-      calculateReward: CalculateReward<State>
-    },
-    config: {
-      duration: number
-      explorationParam?: number
-    }
-  ): this {
-    this.controller_.init(funcs, config)
-    return this
   }
 }

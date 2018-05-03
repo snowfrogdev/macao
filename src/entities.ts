@@ -79,6 +79,9 @@ export interface StateIsTerminal<State extends Playerwise> {
  * and a `number` representing the player, as arguments. Given the game `State`,
  * it calculates a reward for the player and returns that reward as a `number`.
  *
+ * Normaly, you would want a win to return 1, a loss to return -1 and a draw
+ * to return 0 but you can decide on a different reward scheme.
+ *
  * ### Example
  * ```javascript
  * function(state, player) {
