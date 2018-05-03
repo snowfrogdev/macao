@@ -1,4 +1,4 @@
-import { DefaultGameRules } from './../src/classes'
+import { DefaultGameRules } from './../src/entities'
 describe('The GameRules instance', () => {
   describe('when being created', () => {
     let funcs

@@ -1,4 +1,4 @@
-import { DataGateway } from './mcts'
+import { DataGateway } from './mcts/mcts'
 
 /**
  *

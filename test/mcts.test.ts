@@ -1,20 +1,4 @@
-import {
-  DefaultSelect,
-  DefaultExpand,
-  DefaultBestChild,
-  DefaultUCB1,
-  DataGateway,
-  BestChild,
-  Expand,
-  Simulate,
-  DefaultSimulate,
-  Select,
-  MCTSFacade,
-  DefaultMCTSFacade,
-  BackPropagate,
-  DefaultBackPropagate,
-  UCB1
-} from '../src/mcts'
+import { DataGateway, MCTSFacade, DefaultMCTSFacade } from '../src/mcts/mcts'
 import { DataStore } from '../src/data-store'
 import {
   ticTacToeFuncs,
@@ -22,7 +6,17 @@ import {
   TicTacToeMove,
   ticTacToeBoard
 } from './tic-tac-toe/tic-tac-toe'
-import { MCTSState, MCTSNode } from '../src/classes'
+import { MCTSState, MCTSNode } from '../src/entities'
+import { Expand, DefaultExpand } from '../src/mcts/expand/expand'
+import {
+  BestChild,
+  UCB1,
+  DefaultUCB1,
+  DefaultBestChild
+} from '../src/mcts/select/best-child/best-child'
+import { Select, DefaultSelect } from '../src/mcts/select/select'
+import { Simulate, DefaultSimulate } from '../src/mcts/simulate/simulate'
+import { BackPropagate, DefaultBackPropagate } from '../src/mcts/back-propagate/back-propagate'
 
 let dataStore: DataGateway<string, MCTSState<TicTacToeState, TicTacToeMove>>
 let expand: Expand<TicTacToeState, TicTacToeMove>

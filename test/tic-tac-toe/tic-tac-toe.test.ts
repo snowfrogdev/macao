@@ -1,24 +1,18 @@
-import {
-  DefaultMCTSFacade,
-  DataGateway,
-  Expand,
-  BestChild,
-  Select,
-  Simulate,
-  BackPropagate,
-  MCTSFacade,
-  DefaultExpand,
-  DefaultBestChild,
-  DefaultSelect,
-  DefaultSimulate,
-  DefaultUCB1,
-  DefaultBackPropagate
-} from '../../src/mcts'
-import { MCTSState } from '../../src/classes'
+import { DefaultMCTSFacade, DataGateway, MCTSFacade } from '../../src/mcts/mcts'
+import { MCTSState } from '../../src/entities'
 import { TicTacToeState, TicTacToeMove, ticTacToeFuncs } from './tic-tac-toe'
 import { DataStore } from '../../src/data-store'
 import { loopFor } from '../../src/utils'
 import { Macao } from '../../src/macao'
+import { Expand, DefaultExpand } from '../../src/mcts/expand/expand'
+import {
+  BestChild,
+  DefaultBestChild,
+  DefaultUCB1
+} from '../../src/mcts/select/best-child/best-child'
+import { Select, DefaultSelect } from '../../src/mcts/select/select'
+import { Simulate, DefaultSimulate } from '../../src/mcts/simulate/simulate'
+import { BackPropagate, DefaultBackPropagate } from '../../src/mcts/back-propagate/back-propagate'
 
 xdescribe('The DefaultMCTSFacade instance', () => {
   let dataStore: DataGateway<string, MCTSState<TicTacToeState, TicTacToeMove>>

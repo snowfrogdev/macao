@@ -5,19 +5,14 @@ import {
   CalculateReward,
   Playerwise,
   MCTSState
-} from './classes'
-import {
-  MCTSFacade,
-  DefaultMCTSFacade,
-  DefaultSelect,
-  DefaultExpand,
-  DefaultBestChild,
-  DefaultUCB1,
-  UCB1,
-  DefaultSimulate,
-  DefaultBackPropagate
-} from './mcts'
+} from './entities'
+import { MCTSFacade, DefaultMCTSFacade } from './mcts/mcts'
 import { DataStore } from './data-store'
+import { DefaultSelect } from './mcts/select/select'
+import { DefaultExpand } from './mcts/expand/expand'
+import { UCB1, DefaultUCB1, DefaultBestChild } from './mcts/select/best-child/best-child'
+import { DefaultSimulate } from './mcts/simulate/simulate'
+import { DefaultBackPropagate } from './mcts/back-propagate/back-propagate'
 
 /**
  *
