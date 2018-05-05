@@ -66,9 +66,16 @@ export class Macao<State extends Playerwise, Action> {
    * @param {object} config Configuration options
    * @param {number} config.duration Run time of the algorithm, in milliseconds.
    * @param {number | undefined} config.explorationParam The exploration parameter constant.
+   * Used in [UCT](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search). Defaults to 1.414.
+   * @param {number | undefined} config.fpuParam The First play urgency parameter. Used to encourage
+   * early exploitation. Defaults to `Infinity`.
+   * See [Exploration exploitation in Go:
+   * UCT for Monte-Carlo Go](https://hal.archives-ouvertes.fr/hal-00115330/document)
    * @param {string[]} config.simulate An array of the simulation algorithm enhancements
    * you wish to use.
-   * used in [UCT](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search). Defaults to 1.414.
+   * @param {string[]} config.expand An array of the expand algorithm enhancements
+   * you wish to use.
+   *
    */
   constructor(
     funcs: {
@@ -80,11 +87,22 @@ export class Macao<State extends Playerwise, Action> {
     config: {
       duration: number
       explorationParam?: number
+      fpuParam?: number
       /**
        * An array of the `simulate` algorithm enhancements you wish to use.
        * Valid options: "decisive", "anti-decisive".
        */
       simulate?: string[]
+      /**
+       * An array of the `expand` algorithm enhancements you wish to use.
+       * Valid options: none at the moment.
+       */
+      expand?: string[]
+      /**
+       * An array of the `select` algorithm enhancements you wish to use.
+       * Valid options: none at the moment.
+       */
+      select?: string[]
     }
   ) {
     this.controller_ = new Controller(funcs, config)

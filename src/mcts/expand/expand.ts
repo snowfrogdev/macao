@@ -1,6 +1,7 @@
 import { MCTSNode, Playerwise, ApplyAction, GenerateActions, MCTSState } from '../../entities'
 import { DataGateway } from '../mcts'
 import { spliceRandom } from '../../utils'
+import { BestChild } from '../select/best-child/best-child'
 
 /**
  *
@@ -26,26 +27,12 @@ export interface Expand<State, Action> {
  * @template Action
  */
 export class DefaultExpand<State extends Playerwise, Action> implements Expand<State, Action> {
-  /**
-   * Creates an instance of DefaultExpand.
-   * @param {ApplyAction<State, Action>} applyAction_
-   * @param {GenerateActions<State, Action>} generateActions_
-   * @param {DataGateway<string, MCTSState<State, Action>>} dataStore_
-   * @memberof DefaultExpand
-   */
   constructor(
     private applyAction_: ApplyAction<State, Action>,
     private generateActions_: GenerateActions<State, Action>,
     private dataStore_: DataGateway<string, MCTSState<State, Action>>
   ) {}
 
-  /**
-   *
-   *
-   * @param {MCTSNode<State, Action>} node
-   * @returns {MCTSNode<State, Action>}
-   * @memberof DefaultExpand
-   */
   run(node: MCTSNode<State, Action>): MCTSNode<State, Action> {
     const action = spliceRandom(node.possibleActionsLeftToExpand)
     const state = this.applyAction_(node.mctsState.state, action)

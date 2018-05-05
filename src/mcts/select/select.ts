@@ -1,9 +1,11 @@
 import { MCTSNode, Playerwise, StateIsTerminal } from '../../entities'
 import { Expand } from '../expand/expand'
-import { BestChild } from './best-child/best-child'
+import { BestChild, UCB1 } from './best-child/best-child'
 
 /**
- *
+ * The Select interface represents the Selection part of the Monte Carlo Tree
+ * Search algorithm. This part of the algorithm deals with choosing which node
+ * in the tree to run a simulation on.
  * @hidden
  * @internal
  * @export
@@ -12,47 +14,39 @@ import { BestChild } from './best-child/best-child'
  * @template Action
  */
 export interface Select<State, Action> {
-  run: (node: MCTSNode<State, Action>, explorationParam: number) => MCTSNode<State, Action>
+  run: (node: MCTSNode<State, Action>) => MCTSNode<State, Action>
 }
 
 /**
- *
+ * The DefaultSelect class provides the standard Monte Carlo Tree Search algorithm
+ * with the selection phase. Through it's [[run]] method, when supplied with a tree
+ * node, it will provide another tree node from which to run a simulation.
  * @hidden
  * @internal
- * @export
- * @class DefaultSelect
  * @implements {Select<State, Action>}
  * @template State
  * @template Action
  */
 export class DefaultSelect<State extends Playerwise, Action> implements Select<State, Action> {
-  /**
-   * Creates an instance of DefaultSelect.
-   * @param {StateIsTerminal<State>} stateIsTerminal_
-   * @param {Expand<State, Action>} expand_
-   * @param {BestChild<State, Action>} bestChild_
-   * @memberof DefaultSelect
-   */
   constructor(
     private stateIsTerminal_: StateIsTerminal<State>,
     private expand_: Expand<State, Action>,
-    private bestChild_: BestChild<State, Action>
+    private bestChild_: BestChild<State, Action>,
+    private ucb1_: UCB1<State, Action>,
+    private fpuParam_: number
   ) {}
 
-  /**
-   *
-   *
-   * @param {MCTSNode<State, Action>} node
-   * @param {number} explorationParam
-   * @returns {MCTSNode<State, Action>}
-   * @memberof DefaultSelect
-   */
-  run(node: MCTSNode<State, Action>, explorationParam: number): MCTSNode<State, Action> {
+  run(node: MCTSNode<State, Action>): MCTSNode<State, Action> {
     while (!this.stateIsTerminal_(node.mctsState.state)) {
+      const child = this.bestChild_.run(node)
+      if (!child) return this.expand_.run(node)
       if (node.isNotFullyExpanded()) {
-        return this.expand_.run(node)
+        const ucb1 = this.ucb1_.run(node.mctsState, child.mctsState)
+        if (ucb1 < this.fpuParam_) {
+          return this.expand_.run(node)
+        }
       }
-      node = this.bestChild_.run(node, explorationParam)
+      node = child
     }
     return node
   }

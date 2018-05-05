@@ -32,7 +32,10 @@ export class Controller<State extends Playerwise, Action> {
   private mcts_!: MCTSFacade<State, Action>
   private duration_!: number
   private explorationParam_!: number
+  private fpuParam_!: number
   private simulate_!: string[]
+  private expand_!: string[]
+  private select_!: string[]
 
   /**
    * Creates an instance of Controller.
@@ -58,12 +61,18 @@ export class Controller<State extends Playerwise, Action> {
     config: {
       duration: number
       explorationParam?: number
+      fpuParam?: number
       simulate?: string[]
+      expand?: string[]
+      select?: string[]
     }
   ) {
     this.duration_ = config.duration
     this.explorationParam_ = config.explorationParam || 1.414
+    this.fpuParam_ = config.fpuParam || Infinity
     this.simulate_ = config.simulate || []
+    this.expand_ = config.expand || []
+    this.select_ = config.select || []
 
     this.init(funcs)
   }
@@ -92,10 +101,12 @@ export class Controller<State extends Playerwise, Action> {
     // This is where we bootstrap the library according to initialization options.
     const data: Map<string, MCTSState<State, Action>> = new Map()
     const dataStore = new DataStore(data)
+    const ucb1: UCB1<State, Action> = new DefaultUCB1(this.explorationParam_)
+    const bestChild = new DefaultBestChild(ucb1)
+
     const expand = new DefaultExpand(funcs.applyAction, funcs.generateActions, dataStore)
-    const UCB1: UCB1<State, Action> = new DefaultUCB1()
-    const bestChild = new DefaultBestChild(UCB1)
-    const select = new DefaultSelect(funcs.stateIsTerminal, expand, bestChild)
+
+    const select = new DefaultSelect(funcs.stateIsTerminal, expand, bestChild, ucb1, this.fpuParam_)
 
     let simulate: Simulate<State, Action>
     if (this.simulate_.includes('decisive')) {

@@ -88,12 +88,12 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
   getAction(state: State, duration?: number): Action {
     const rootNode = this.createRootNode_(state)
     loopFor(duration || this.duration_).milliseconds(() => {
-      const node = this.select_.run(rootNode, this.explorationParam_)
+      const node = this.select_.run(rootNode)
       const score = this.simulate_.run(node.mctsState.state)
       this.backPropagate_.run(node, score)
     })
-    const bestChild = this.bestChild_.run(rootNode, 0)
-    return bestChild.action as Action
+    const bestChild = this.bestChild_.run(rootNode, true)
+    return bestChild!.action as Action
   }
 
   /**

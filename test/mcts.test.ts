@@ -7,7 +7,7 @@ import {
   ticTacToeBoard
 } from './tic-tac-toe/tic-tac-toe'
 import { MCTSState, MCTSNode } from '../src/entities'
-import { Expand, DefaultExpand } from '../src/mcts/expand/expand'
+import { Expand, DefaultExpand, FullExpand } from '../src/mcts/expand/expand'
 import {
   BestChild,
   UCB1,
@@ -37,9 +37,9 @@ beforeEach(() => {
   const map = new Map()
   dataStore = new DataStore(map)
   expand = new DefaultExpand(ticTacToeFuncs.applyAction, ticTacToeFuncs.generateActions, dataStore)
-  ucb1 = new DefaultUCB1()
+  ucb1 = new DefaultUCB1(1.414)
   bestChild = new DefaultBestChild(ucb1)
-  select = new DefaultSelect(ticTacToeFuncs.stateIsTerminal, expand, bestChild)
+  select = new DefaultSelect(ticTacToeFuncs.stateIsTerminal, expand, bestChild, ucb1, Infinity)
   simulate = new DefaultSimulate(
     ticTacToeFuncs.stateIsTerminal,
     ticTacToeFuncs.generateActions,
@@ -70,7 +70,7 @@ describe('The DefaultSelect instance', () => {
     const mtcsState = new MCTSState(state)
     const node = new MCTSNode(mtcsState, ticTacToeFuncs.generateActions(state))
     it('should return the current node', () => {
-      expect(select.run(node, 1.414)).toBe(node)
+      expect(select.run(node)).toBe(node)
     })
   })
   describe('when the current node is not terminal', () => {
@@ -83,7 +83,7 @@ describe('The DefaultSelect instance', () => {
     it('should return a node that is not the current node.', () => {
       const mtcsState = new MCTSState(state)
       const node = new MCTSNode(mtcsState, ticTacToeFuncs.generateActions(state))
-      const result = select.run(node, 1.414)
+      const result = select.run(node)
       expect(result).toBeInstanceOf(MCTSNode)
       expect(result).not.toBe(node)
     })
@@ -103,7 +103,7 @@ describe('The DefaultUCB1 function', () => {
       parent.visits = 300
       child.visits = 100
       child.reward = 50
-      expect(ucb1.run(parent, child, 1.414)).toBeCloseTo(0.8377)
+      expect(ucb1.run(parent, child)).toBeCloseTo(0.8377)
     })
   })
 })
@@ -141,7 +141,7 @@ describe('The DefaultBestChild instance', () => {
       child3State.visits = 50
       child3State.reward = 25
 
-      expect(bestChild.run(parentNode, 1.414)).toBe(parentNode.children[2])
+      expect(bestChild.run(parentNode)).toBe(parentNode.children[2])
     })
   })
 })
