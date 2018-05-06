@@ -44,10 +44,10 @@ export class DefaultBestChild<State extends Playerwise, Action>
     if (!node.children.length) {
       return undefined
     }
-
+    const sumChildVisits = node.children.reduce((p, c) => p + c.mctsState.visits, 0)
     const selectedNode = node.children.reduce((p, c) => {
-      return this.UCB1_.run(node.mctsState, p.mctsState, exploit) >
-        this.UCB1_.run(node.mctsState, c.mctsState, exploit)
+      return this.UCB1_.run(sumChildVisits, p.mctsState, exploit) >
+        this.UCB1_.run(sumChildVisits, c.mctsState, exploit)
         ? p
         : c
     })
@@ -66,7 +66,7 @@ export class DefaultBestChild<State extends Playerwise, Action>
  * @template Action
  */
 export interface UCB1<State, Action> {
-  run(parent: MCTSState<State, Action>, child: MCTSState<State, Action>, exploit?: boolean): number
+  run(sumChildVisits: number, child: MCTSState<State, Action>, exploit?: boolean): number
 }
 
 /**
@@ -90,10 +90,10 @@ export class DefaultUCB1<State, Action> implements UCB1<State, Action> {
    * @returns {number}
    * @memberof DefaultUCB1
    */
-  run(parent: MCTSState<State, Action>, child: MCTSState<State, Action>, exploit = false): number {
+  run(sumChildVisits: number, child: MCTSState<State, Action>, exploit = false): number {
     if (exploit) this.explorationParam_ = 0
     const exploitationTerm = child.reward / child.visits
-    const explorationTerm = Math.sqrt(Math.log(parent.visits) / child.visits)
+    const explorationTerm = Math.sqrt(Math.log(sumChildVisits) / child.visits)
     return exploitationTerm + this.explorationParam_ * explorationTerm
   }
 }

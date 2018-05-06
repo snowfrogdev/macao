@@ -20,9 +20,6 @@ export interface Expand<State, Action> {
  *
  * @hidden
  * @internal
- * @export
- * @class DefaultExpand
- * @implements {Expand<State, Action>}
  * @template State
  * @template Action
  */

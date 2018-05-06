@@ -98,12 +98,11 @@ describe('The DefaultUCB1 function', () => {
         board: ticTacToeBoard,
         player: 1
       }
-      const parent = new MCTSState(state)
+
       const child = new MCTSState(state)
-      parent.visits = 300
       child.visits = 100
       child.reward = 50
-      expect(ucb1.run(parent, child)).toBeCloseTo(0.8377)
+      expect(ucb1.run(300, child)).toBeCloseTo(0.8377)
     })
   })
 })

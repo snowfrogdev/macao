@@ -41,7 +41,8 @@ export class DefaultSelect<State extends Playerwise, Action> implements Select<S
       const child = this.bestChild_.run(node)
       if (!child) return this.expand_.run(node)
       if (node.isNotFullyExpanded()) {
-        const ucb1 = this.ucb1_.run(node.mctsState, child.mctsState)
+        const sumChildVisits = node.children.reduce((p, c) => p + c.mctsState.visits, 0)
+        const ucb1 = this.ucb1_.run(sumChildVisits, child.mctsState)
         if (ucb1 < this.fpuParam_) {
           return this.expand_.run(node)
         }

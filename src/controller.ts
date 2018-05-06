@@ -9,7 +9,7 @@ import {
 import { MCTSFacade, DefaultMCTSFacade } from './mcts/mcts'
 import { DataStore } from './data-store'
 import { DefaultSelect } from './mcts/select/select'
-import { DefaultExpand } from './mcts/expand/expand'
+import { DefaultExpand, Expand } from './mcts/expand/expand'
 import { UCB1, DefaultUCB1, DefaultBestChild } from './mcts/select/best-child/best-child'
 import {
   DefaultSimulate,
