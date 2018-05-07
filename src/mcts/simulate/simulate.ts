@@ -5,7 +5,7 @@ import {
   ApplyAction,
   CalculateReward
 } from '../../entities'
-import { spliceRandom } from '../../utils'
+import { spliceRandom, getRandomIntInclusive } from '../../utils'
 
 /**
  * The Simulate interface provides a playthrough of the game and is
@@ -55,7 +55,8 @@ export class DefaultSimulate<State extends Playerwise, Action> implements Simula
       const actions = this.generateActions_(state)
 
       // Select an action at random
-      const action = spliceRandom(actions)
+      const index = getRandomIntInclusive(0, actions.length - 1)
+      const action = actions[index]
 
       // Apply action and create new state
       state = this.applyAction_(state, action)
@@ -100,7 +101,7 @@ export class DecisiveMoveSimulate<State extends Playerwise, Action>
    * that move is selected, otherwise moves are selected at random.   *
    * @param {State} state An object representing the state of the game.
    * @returns {number}
-   * @memberof DefaultSimulate
+   * @memberof DecisiveMoveSimulate
    */
   run(state: State): number {
     const player = state.player
@@ -119,7 +120,10 @@ export class DecisiveMoveSimulate<State extends Playerwise, Action>
         }
       }
 
-      if (!action) action = spliceRandom(actions)
+      if (!action) {
+        const index = getRandomIntInclusive(0, actions.length - 1)
+        action = actions[index]
+      }
 
       // Apply action and create new state
       state = this.applyAction_(state, action)
@@ -168,7 +172,7 @@ export class AntiDecisiveMoveSimulate<State extends Playerwise, Action>
    * are selected at random.
    * @param {State} state An object representing the state of the game.
    * @returns {number}
-   * @memberof DefaultSimulate
+   * @memberof AntiDecisiveMoveSimulate
    */
   run(state: State): number {
     const player = state.player
@@ -203,7 +207,10 @@ export class AntiDecisiveMoveSimulate<State extends Playerwise, Action>
         }
       }
 
-      if (!action) action = spliceRandom(actions)
+      if (!action) {
+        const index = getRandomIntInclusive(0, actions.length - 1)
+        action = actions[index]
+      }
 
       // Apply action and create new state
       state = this.applyAction_(state, action)

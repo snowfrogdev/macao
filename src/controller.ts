@@ -33,7 +33,7 @@ export class Controller<State extends Playerwise, Action> {
   private duration_!: number
   private explorationParam_!: number
   private fpuParam_!: number
-  private transpoTable_!: number
+  private transpoTable_!: number | undefined
   private simulate_!: string[]
   private expand_!: string[]
   private select_!: string[]
@@ -72,7 +72,7 @@ export class Controller<State extends Playerwise, Action> {
     this.duration_ = config.duration
     this.explorationParam_ = config.explorationParam || 1.414
     this.fpuParam_ = config.fpuParam || Infinity
-    this.transpoTable_ = config.transpoTable || 100000
+    this.transpoTable_ = config.transpoTable
     this.simulate_ = config.simulate || []
     this.expand_ = config.expand || []
     this.select_ = config.select || []
