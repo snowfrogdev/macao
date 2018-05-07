@@ -71,6 +71,7 @@ export class Macao<State extends Playerwise, Action> {
    * early exploitation. Defaults to `Infinity`.
    * See [Exploration exploitation in Go:
    * UCT for Monte-Carlo Go](https://hal.archives-ouvertes.fr/hal-00115330/document)
+   * @param {number | undefined} config.transpoTable The number of buckets in the Transoposition Hash Table
    * @param {string[]} config.simulate An array of the simulation algorithm enhancements
    * you wish to use.
    * @param {string[]} config.expand An array of the expand algorithm enhancements
@@ -88,6 +89,10 @@ export class Macao<State extends Playerwise, Action> {
       duration: number
       explorationParam?: number
       fpuParam?: number
+      /**
+       * The number of buckets in the Transposition Hash table
+       */
+      transpoTable?: number
       /**
        * An array of the `simulate` algorithm enhancements you wish to use.
        * Valid options: "decisive", "anti-decisive".

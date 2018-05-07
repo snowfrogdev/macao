@@ -7,7 +7,7 @@ import {
   MCTSState
 } from './entities'
 import { MCTSFacade, DefaultMCTSFacade } from './mcts/mcts'
-import { DataStore } from './data-store'
+import { TranspositionTable, Collection, HashTable } from './data-store'
 import { DefaultSelect } from './mcts/select/select'
 import { DefaultExpand, Expand } from './mcts/expand/expand'
 import { UCB1, DefaultUCB1, DefaultBestChild } from './mcts/select/best-child/best-child'
@@ -33,6 +33,7 @@ export class Controller<State extends Playerwise, Action> {
   private duration_!: number
   private explorationParam_!: number
   private fpuParam_!: number
+  private transpoTable_!: number
   private simulate_!: string[]
   private expand_!: string[]
   private select_!: string[]
@@ -62,6 +63,7 @@ export class Controller<State extends Playerwise, Action> {
       duration: number
       explorationParam?: number
       fpuParam?: number
+      transpoTable?: number
       simulate?: string[]
       expand?: string[]
       select?: string[]
@@ -70,6 +72,7 @@ export class Controller<State extends Playerwise, Action> {
     this.duration_ = config.duration
     this.explorationParam_ = config.explorationParam || 1.414
     this.fpuParam_ = config.fpuParam || Infinity
+    this.transpoTable_ = config.transpoTable || 100000
     this.simulate_ = config.simulate || []
     this.expand_ = config.expand || []
     this.select_ = config.select || []
@@ -99,12 +102,18 @@ export class Controller<State extends Playerwise, Action> {
     calculateReward: CalculateReward<State>
   }) {
     // This is where we bootstrap the library according to initialization options.
-    const data: Map<string, MCTSState<State, Action>> = new Map()
-    const dataStore = new DataStore(data)
+    let data: Collection<State, Action>
+    if (this.transpoTable_) {
+      data = new HashTable(this.transpoTable_)
+    } else {
+      data = new Map()
+    }
+
+    const transpositionTable = new TranspositionTable(data)
     const ucb1: UCB1<State, Action> = new DefaultUCB1(this.explorationParam_)
     const bestChild = new DefaultBestChild(ucb1)
 
-    const expand = new DefaultExpand(funcs.applyAction, funcs.generateActions, dataStore)
+    const expand = new DefaultExpand(funcs.applyAction, funcs.generateActions, transpositionTable)
 
     const select = new DefaultSelect(funcs.stateIsTerminal, expand, bestChild, ucb1, this.fpuParam_)
 
@@ -141,7 +150,7 @@ export class Controller<State extends Playerwise, Action> {
       backPropagate,
       bestChild,
       funcs.generateActions,
-      dataStore,
+      transpositionTable,
       this.duration_,
       this.explorationParam_
     )

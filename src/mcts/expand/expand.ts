@@ -27,19 +27,18 @@ export class DefaultExpand<State extends Playerwise, Action> implements Expand<S
   constructor(
     private applyAction_: ApplyAction<State, Action>,
     private generateActions_: GenerateActions<State, Action>,
-    private dataStore_: DataGateway<string, MCTSState<State, Action>>
+    private dataStore_: DataGateway<State, MCTSState<State, Action>>
   ) {}
 
   run(node: MCTSNode<State, Action>): MCTSNode<State, Action> {
     const action = spliceRandom(node.possibleActionsLeftToExpand)
     const state = this.applyAction_(node.mctsState.state, action)
     // Check to see if state is already in Map
-    const stringifiedState = JSON.stringify(state)
-    let mctsState = this.dataStore_.get(stringifiedState)
+    let mctsState = this.dataStore_.get(state)
     // If it isn't, create a new MCTSState and store it in the map
     if (!mctsState) {
       mctsState = new MCTSState(state)
-      this.dataStore_.set(stringifiedState, mctsState)
+      this.dataStore_.set(state, mctsState)
     }
     const child = node.addChild(mctsState, this.generateActions_(state), action)
     return child

@@ -1,5 +1,5 @@
 import { DataGateway, MCTSFacade, DefaultMCTSFacade } from '../src/mcts/mcts'
-import { DataStore } from '../src/data-store'
+import { TranspositionTable } from '../src/data-store'
 import {
   ticTacToeFuncs,
   TicTacToeState,
@@ -7,7 +7,7 @@ import {
   ticTacToeBoard
 } from './tic-tac-toe/tic-tac-toe'
 import { MCTSState, MCTSNode } from '../src/entities'
-import { Expand, DefaultExpand, FullExpand } from '../src/mcts/expand/expand'
+import { Expand, DefaultExpand } from '../src/mcts/expand/expand'
 import {
   BestChild,
   UCB1,
@@ -24,7 +24,7 @@ import {
 import { BackPropagate, DefaultBackPropagate } from '../src/mcts/back-propagate/back-propagate'
 import { loopFor } from '../src/utils'
 
-let dataStore: DataGateway<string, MCTSState<TicTacToeState, TicTacToeMove>>
+let dataStore: DataGateway<TicTacToeState, MCTSState<TicTacToeState, TicTacToeMove>>
 let expand: Expand<TicTacToeState, TicTacToeMove>
 let bestChild: BestChild<TicTacToeState, TicTacToeMove>
 let select: Select<TicTacToeState, TicTacToeMove>
@@ -35,7 +35,7 @@ let ucb1: UCB1<TicTacToeState, TicTacToeMove>
 
 beforeEach(() => {
   const map = new Map()
-  dataStore = new DataStore(map)
+  dataStore = new TranspositionTable(map)
   expand = new DefaultExpand(ticTacToeFuncs.applyAction, ticTacToeFuncs.generateActions, dataStore)
   ucb1 = new DefaultUCB1(1.414)
   bestChild = new DefaultBestChild(ucb1)

@@ -23,9 +23,9 @@ import { spliceRandom, loopFor } from '../utils'
  * @template Key
  * @template Value
  */
-export interface DataGateway<Key, Value> {
-  get: (key: Key) => Value | undefined
-  set: (key: Key, value: Value) => this
+export interface DataGateway<State, Action> {
+  get: (key: State) => MCTSState<State, Action> | undefined
+  set: (key: State, value: MCTSState<State, Action>) => this
 }
 
 /**
@@ -73,7 +73,7 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
     private backPropagate_: BackPropagate<State, Action>,
     private bestChild_: BestChild<State, Action>,
     private generateActions_: GenerateActions<State, Action>,
-    private dataStore_: DataGateway<string, MCTSState<State, Action>>,
+    private dataStore_: DataGateway<State, Action>,
     private duration_: number,
     private explorationParam_: number
   ) {}
@@ -105,13 +105,12 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
    * @memberof DefaultMCTSFacade
    */
   private createRootNode_(state: State): MCTSNode<State, Action> {
-    // Check to see if state is already in Map
-    const stringifiedState = JSON.stringify(state)
-    let mctsState = this.dataStore_.get(stringifiedState)
-    // If it isn't, create a new MCTSState and store it in the map
+    // Check to see if state is already in DataStore
+    let mctsState = this.dataStore_.get(state)
+    // If it isn't, create a new MCTSState and store it
     if (!mctsState) {
       mctsState = new MCTSState(state)
-      this.dataStore_.set(stringifiedState, mctsState)
+      this.dataStore_.set(state, mctsState)
     }
     // Create new MCTSNode
     const node = new MCTSNode(mctsState, this.generateActions_(state))

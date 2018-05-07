@@ -2,7 +2,7 @@ import { Macao } from '../../src/macao'
 import { ticTacToeFuncs, TicTacToeState, TicTacToeMove } from './tic-tac-toe'
 import { loopFor } from '../../src/utils'
 
-describe('The Macao instance', () => {
+xdescribe('The Macao instance', () => {
   describe('when used to simulate 50 Tic Tac Toe games', () => {
     describe('given 100 ms per turn and an exploration param of 1.414', () => {
       it('should end in a draw', () => {
