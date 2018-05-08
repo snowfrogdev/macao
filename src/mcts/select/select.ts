@@ -1,4 +1,4 @@
-import { MCTSNode, Playerwise, StateIsTerminal } from '../../entities'
+import { MCTSNode, Playerwise, StateIsTerminal, CalculateReward } from '../../entities'
 import { Expand } from '../expand/expand'
 import { BestChild, UCB1 } from './best-child/best-child'
 

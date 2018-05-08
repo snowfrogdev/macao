@@ -27,7 +27,7 @@ export class DefaultExpand<State extends Playerwise, Action> implements Expand<S
   constructor(
     private applyAction_: ApplyAction<State, Action>,
     private generateActions_: GenerateActions<State, Action>,
-    private dataStore_: DataGateway<State, MCTSState<State, Action>>
+    private dataStore_: DataGateway<State, Action>
   ) {}
 
   run(node: MCTSNode<State, Action>): MCTSNode<State, Action> {

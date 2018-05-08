@@ -71,12 +71,9 @@ export class Macao<State extends Playerwise, Action> {
    * early exploitation. Defaults to `Infinity`.
    * See [Exploration exploitation in Go:
    * UCT for Monte-Carlo Go](https://hal.archives-ouvertes.fr/hal-00115330/document)
-   * @param {number | undefined} config.transpoTable The number of buckets in the Transoposition Hash Table
-   * @param {string[]} config.simulate An array of the simulation algorithm enhancements
-   * you wish to use.
-   * @param {string[]} config.expand An array of the expand algorithm enhancements
-   * you wish to use.
-   *
+   * @param {number | undefined} config.decayingParam The multiplier by which to decay the rewarard
+   * in the backpropagtion phase. Defaults to 1.
+   * @param {number | undefined} config.transpoTable The number of buckets in the Transoposition Hash Table.
    */
   constructor(
     funcs: {
@@ -89,25 +86,11 @@ export class Macao<State extends Playerwise, Action> {
       duration: number
       explorationParam?: number
       fpuParam?: number
+      decayingParam?: number
       /**
        * The number of buckets in the Transposition Hash table
        */
       transpoTable?: number
-      /**
-       * An array of the `simulate` algorithm enhancements you wish to use.
-       * Valid options: "decisive", "anti-decisive".
-       */
-      simulate?: string[]
-      /**
-       * An array of the `expand` algorithm enhancements you wish to use.
-       * Valid options: none at the moment.
-       */
-      expand?: string[]
-      /**
-       * An array of the `select` algorithm enhancements you wish to use.
-       * Valid options: none at the moment.
-       */
-      select?: string[]
     }
   ) {
     this.controller_ = new Controller(funcs, config)

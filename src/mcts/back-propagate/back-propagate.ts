@@ -24,18 +24,18 @@ export interface BackPropagate<State, Action> {
  * @template Action
  */
 export class DefaultBackPropagate<State, Action> implements BackPropagate<State, Action> {
-  /**
-   *
-   *
-   * @param {(MCTSNode<State, Action> | undefined)} node
-   * @param {number} score
-   * @memberof DefaultBackPropagate
-   */
+  constructor(private decayingParam: number) {}
   run(node: MCTSNode<State, Action> | undefined, score: number): void {
     while (node) {
       node.mctsState.visits++
       node.mctsState.reward += score
+
+      // Flip reward
       score *= -1
+
+      // Decay reward
+      score *= this.decayingParam
+
       node = node.parent
     }
   }

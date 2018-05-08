@@ -3,9 +3,11 @@ import {
   StateIsTerminal,
   GenerateActions,
   ApplyAction,
-  CalculateReward
+  CalculateReward,
+  MCTSState
 } from '../../entities'
 import { spliceRandom, getRandomIntInclusive } from '../../utils'
+import { DataGateway } from '../mcts'
 
 /**
  * The Simulate interface provides a playthrough of the game and is
@@ -57,160 +59,6 @@ export class DefaultSimulate<State extends Playerwise, Action> implements Simula
       // Select an action at random
       const index = getRandomIntInclusive(0, actions.length - 1)
       const action = actions[index]
-
-      // Apply action and create new state
-      state = this.applyAction_(state, action)
-    }
-    return this.calculateReward_(state, player)
-  }
-}
-
-/**
- * The DecisiveMoveSimulate class provides, trough it's [[run]] method,
- * a playthrough of the game where each time there is a winning move to be played,
- * that move is selected, otherwise moves are selected at random.
- * See ["On the Huge Benefit of Decisive Moves in Monte-Carlo Tree
- * Search Algorithms"](https://hal.inria.fr/inria-00495078/document) - Teytaud & Teytaud
- * @hidden
- * @internal
- */
-export class DecisiveMoveSimulate<State extends Playerwise, Action>
-  implements Simulate<State, Action> {
-  /**
-   * Creates an instance of DecisiveMoveSimulate
-   * @param {StateIsTerminal<State>} stateIsTerminal_
-   * @param {GenerateActions<State, Action>} generateActions_
-   * @param {ApplyAction<State, Action>} applyAction_
-   * @param {CalculateReward<State>} calculateReward_
-   * @memberof DefaultSimulate
-   */
-  constructor(
-    private stateIsTerminal_: StateIsTerminal<State>,
-    private generateActions_: GenerateActions<State, Action>,
-    private applyAction_: ApplyAction<State, Action>,
-    private calculateReward_: CalculateReward<State>
-  ) {}
-
-  /**
-   * The `run` method of the [[DecisiveMoveSimulate]] class runs a simulated
-   * playthrough of the game and returns a number representing
-   * the result of the simulation from the perspective of the player who's just
-   * played a move and is now waiting for his opponent's turn.
-   *
-   * During the simulation, each time there is a winning move to be played,
-   * that move is selected, otherwise moves are selected at random.   *
-   * @param {State} state An object representing the state of the game.
-   * @returns {number}
-   * @memberof DecisiveMoveSimulate
-   */
-  run(state: State): number {
-    const player = state.player
-    while (!this.stateIsTerminal_(state)) {
-      // Generate possible actions
-      const actions = this.generateActions_(state)
-
-      let action: Action | undefined
-      // Check all possible moves until you find a winning move and if you do, that is the action to play
-      for (const move of actions) {
-        const innerState = this.applyAction_(state, move)
-        const result = this.calculateReward_(innerState, innerState.player)
-        if (result === 1) {
-          action = move
-          break
-        }
-      }
-
-      if (!action) {
-        const index = getRandomIntInclusive(0, actions.length - 1)
-        action = actions[index]
-      }
-
-      // Apply action and create new state
-      state = this.applyAction_(state, action)
-    }
-    return this.calculateReward_(state, player)
-  }
-}
-
-/**
- * The AntiDecisiveMoveSimulate class provides, trough it's [[run]] method,
- * a playthrough of the game where each time there is a winning move to be played,
- * that move is selected. If there are no winning moves, but a move would prevent
- * the opponent from an immediate win, that move is selected. Otherwise moves
- * are selected at random.
- * See ["On the Huge Benefit of Decisive Moves in Monte-Carlo Tree
- * Search Algorithms"](https://hal.inria.fr/inria-00495078/document) - Teytaud & Teytaud
- * @hidden
- * @internal
- */
-export class AntiDecisiveMoveSimulate<State extends Playerwise, Action>
-  implements Simulate<State, Action> {
-  /**
-   * Creates an instance of DecisiveMoveSimulate
-   * @param {StateIsTerminal<State>} stateIsTerminal_
-   * @param {GenerateActions<State, Action>} generateActions_
-   * @param {ApplyAction<State, Action>} applyAction_
-   * @param {CalculateReward<State>} calculateReward_
-   * @memberof DefaultSimulate
-   */
-  constructor(
-    private stateIsTerminal_: StateIsTerminal<State>,
-    private generateActions_: GenerateActions<State, Action>,
-    private applyAction_: ApplyAction<State, Action>,
-    private calculateReward_: CalculateReward<State>
-  ) {}
-
-  /**
-   * The `run` method of the [[AntiDecisiveMoveSimulate]] class runs a simulated
-   * playthrough of the game and returns a number representing
-   * the result of the simulation from the perspective of the player who's just
-   * played a move and is now waiting for his opponent's turn.
-   *
-   * During the simulation, each time there is a winning move to be played,
-   * that move is selected. If there are no winning moves but a move could prevent
-   * the opponent from an immediate win, that move is selected. Otherwise moves
-   * are selected at random.
-   * @param {State} state An object representing the state of the game.
-   * @returns {number}
-   * @memberof AntiDecisiveMoveSimulate
-   */
-  run(state: State): number {
-    const player = state.player
-    while (!this.stateIsTerminal_(state)) {
-      // Generate possible actions
-      const actions = this.generateActions_(state)
-
-      let action: Action | undefined
-      // Check all possible moves until you find a winning move and if you do,
-      // that is the action to play.
-      for (const move of actions) {
-        const innerState = this.applyAction_(state, move)
-        const result = this.calculateReward_(innerState, innerState.player)
-        if (result === 1) {
-          action = move
-          break
-        }
-      }
-
-      if (!action) {
-        // Check all possible moves to see if one would prevent the opponent from
-        // an immediate win and select that move.
-        for (const move of actions) {
-          state.player *= -1
-          const innerState = this.applyAction_(state, move)
-          state.player *= -1
-          const result = this.calculateReward_(innerState, innerState.player)
-          if (result === 1) {
-            action = move
-            break
-          }
-        }
-      }
-
-      if (!action) {
-        const index = getRandomIntInclusive(0, actions.length - 1)
-        action = actions[index]
-      }
 
       // Apply action and create new state
       state = this.applyAction_(state, action)

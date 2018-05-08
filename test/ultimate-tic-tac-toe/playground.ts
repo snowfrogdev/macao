@@ -14,7 +14,7 @@ let losses = 0
 
 let player = -1
 let gamesPlayed = 0
-let gamesLeft = 1000
+let gamesLeft = 5000
 const simStartTime = Date.now()
 let averageGameTime = 0
 
@@ -51,7 +51,7 @@ loopFor(gamesLeft).turns(() => {
       applyAction: uTicTacToeFuncs.applyAction,
       calculateReward: uTicTacToeFuncs.calculateReward
     },
-    { duration: 91, transpoTable: 1000000 }
+    { duration: 91, transpoTable: 100000 }
   )
   /***************************************************************************/
   const player2 = new Macao(
@@ -61,7 +61,7 @@ loopFor(gamesLeft).turns(() => {
       applyAction: uTicTacToeFuncs.applyAction,
       calculateReward: uTicTacToeFuncs.calculateReward
     },
-    { duration: 91, transpoTable: 1 }
+    { duration: 91 }
   )
 
   /***************************************************************************/
