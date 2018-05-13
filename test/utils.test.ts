@@ -34,6 +34,16 @@ describe('The loopFor function', () => {
       expect(time).toBeGreaterThanOrEqual(75)
       expect(time).toBeLessThanOrEqual(125)
     })
+    describe('and returning true', () => {
+      it('should break out of the loop', () => {
+        const start = now()
+        loopFor(0.1).seconds(() => {
+          return true
+        })
+        const time = now() - start
+        expect(time).toBeLessThanOrEqual(50)
+      })
+    })
   })
   describe('when called with 100 milliseconds', () => {
     it('should loop for 100 milliseconds', () => {
@@ -45,6 +55,16 @@ describe('The loopFor function', () => {
       expect(time).toBeGreaterThanOrEqual(75)
       expect(time).toBeLessThanOrEqual(125)
     })
+    describe('and returning true', () => {
+      it('should break out of the loop', () => {
+        const start = now()
+        loopFor(100).milliseconds(() => {
+          return true
+        })
+        const time = now() - start
+        expect(time).toBeLessThanOrEqual(50)
+      })
+    })
   })
   describe('when called with 10 turns', () => {
     it('should loop for 10 turns', () => {
@@ -54,6 +74,19 @@ describe('The loopFor function', () => {
       })
 
       expect(turns).toBeCloseTo(10, 0)
+    })
+    describe('and returning true', () => {
+      it('should break out of the loop', () => {
+        let turns = 0
+        loopFor(10).turns(() => {
+          turns++
+          if (turns === 5) {
+            return true
+          }
+        })
+
+        expect(turns).toBeCloseTo(5, 0)
+      })
     })
   })
 })
