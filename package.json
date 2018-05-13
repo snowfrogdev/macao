@@ -2,7 +2,17 @@
   "name": "macao",
   "version": "1.0.5",
   "description": "A general purpose game playing A.I. framework which uses the Monte Carlo tree search algorithm.",
-  "keywords": ["ai", "artificial intelligence", "macao", "macaojs", "macao.js", "monte carlo tree search", "minimax", "general game playing", "game ai"],
+  "keywords": [
+    "ai",
+    "artificial intelligence",
+    "macao",
+    "macaojs",
+    "macao.js",
+    "monte carlo tree search",
+    "minimax",
+    "general game playing",
+    "game ai"
+  ],
   "main": "dist/macao.umd.js",
   "module": "dist/macao.es5.js",
   "typings": "dist/types/macao.d.ts",
@@ -107,5 +117,6 @@
     "typedoc": "^0.11.0",
     "typescript": "^2.8.3",
     "validate-commit-msg": "^2.12.2"
-  }
+  },
+  "dependencies": {}
 }

@@ -51,7 +51,7 @@ loopFor(gamesLeft).turns(() => {
       applyAction: uTicTacToeFuncs.applyAction,
       calculateReward: uTicTacToeFuncs.calculateReward
     },
-    { duration: 91, transpoTable: 100000 }
+    { duration: 91, decayingParam: 0.9 }
   )
   /***************************************************************************/
   const player2 = new Macao(
@@ -61,7 +61,7 @@ loopFor(gamesLeft).turns(() => {
       applyAction: uTicTacToeFuncs.applyAction,
       calculateReward: uTicTacToeFuncs.calculateReward
     },
-    { duration: 91 }
+    { duration: 91, decayingParam: 0.95 }
   )
 
   /***************************************************************************/

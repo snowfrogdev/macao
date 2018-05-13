@@ -49,7 +49,8 @@ export const spliceRandom = <T>(array: T[]): T => {
 
 /**
  * A function to make looping for a specific amount of time
- * or a specific amount of loops, easier.
+ * or a specific amount of loops, easier. Simply return `true`
+ * to break out of the loop.
  *
  * ### Example
  * ```javascript
@@ -61,7 +62,11 @@ export const spliceRandom = <T>(array: T[]): T => {
  * // Loop for 50 turns
  * loopFor(50).turns(() => {
  *   // Things to do in a loop.
- * })
+ *   if (someCondition) {
+ *     // break out of loop
+ *     return true;
+ *   }
+ * });
  * ```
  * @hidden
  * @internal
@@ -73,19 +78,19 @@ export const loopFor = (time: number) => {
     milliseconds: (callback: () => any) => {
       const start = now()
       while (now() - start < time) {
-        callback()
+        if (callback()) break
       }
     },
     seconds: (callback: () => any) => {
       const start = now()
       const t = time * 1000
       while (now() - start < t) {
-        callback()
+        if (callback()) break
       }
     },
     turns: (callback: () => any) => {
       while (time > 0) {
-        callback()
+        if (callback()) break
         time--
       }
     }
