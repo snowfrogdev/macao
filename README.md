@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="./images/Macao-logo-color.svg" alt="Macao Logo" />
+  <img src="./images/Macao-logo-color.png" alt="Macao Logo" />
 </h1>
 
 [![Build Status](https://travis-ci.org/Neoflash1979/macao.svg?branch=master)](https://travis-ci.org/Neoflash1979/macao)
