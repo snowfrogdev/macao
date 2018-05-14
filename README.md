@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="images/macao-logo-color.svg" alt="Macao Logo" />
+  <img src="./images/Macao-logo-color.svg" alt="Macao Logo" />
 </h1>
 
 [![Build Status](https://travis-ci.org/Neoflash1979/macao.svg?branch=master)](https://travis-ci.org/Neoflash1979/macao)
@@ -13,22 +13,21 @@ import { Macao } from "macao";
 // Functions that implement the game's rules.
 // These functions are provided by you.
 const funcs = {
-    generateActions,
-    applyAction,
-    stateIsTerminal,
-    calculateReward,
-}
+  generateActions,
+  applyAction,
+  stateIsTerminal,
+  calculateReward
+};
 
 const config = {
-    duration: 100,
-    // ...
-}
+  duration: 100
+  // ...
+};
 
 const macao = new Macao(funcs, config);
 
 // Somewhere inside your game loop
 const action = macao.getAction(state);
-
 ```
 
 ## [Installation](#installation)
