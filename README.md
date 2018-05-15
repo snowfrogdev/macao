@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/Neoflash1979/macao.svg?branch=master)](https://travis-ci.org/Neoflash1979/macao)
 [![Coverage Status](https://coveralls.io/repos/github/Neoflash1979/macao/badge.svg)](https://coveralls.io/github/Neoflash1979/macao)
+[![npm version](https://badge.fury.io/js/macao.svg)](https://www.npmjs.com/package/macao)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com/)
 
 ## [Usage Overview](#usage-overview)
 
@@ -39,6 +41,9 @@ npm install macao --save
 ## [API](#api)
 
 You can read the API documentation [here](https://neoflash1979.github.io/macao/).
+
+## [Contributing](#contributing)
+Please take a look at our [contributing](https://github.com/Neoflash1979/macao/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
 
 ## [License](#license)
 
