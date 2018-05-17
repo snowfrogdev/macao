@@ -1,5 +1,5 @@
 /**
- * When running in browsers supporting performance.now(), this function will
+ * When running in browsers supporting performance.now(), or in Node.js, this function will
  * return the time elapsed, in milliseconds, since the time origin. If running
  * in environments that don't support performance.now() it will use Date.now();
  * @hidden
@@ -9,12 +9,12 @@
  */
 export let now: () => number
 try {
-  now =
-    !window.performance || !window.performance.now || !window.performance.timing
-      ? Date.now
-      : function() {
-          return window.performance.now()
-        }
+  if (typeof window !== 'undefined') {
+    now = performance.now
+  } else {
+    const { performance } = require('perf_hooks')
+    now = performance.now
+  }
 } catch {
   now = Date.now
 }
