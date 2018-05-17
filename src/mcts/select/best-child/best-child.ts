@@ -1,4 +1,4 @@
-import { MCTSNode, Playerwise, MCTSState } from '../../../entities'
+import { MCTSNode, MCTSState, Playerwise } from '../../../entities'
 
 /**
  *

@@ -1,7 +1,6 @@
-import { MCTSNode, Playerwise, ApplyAction, GenerateActions, MCTSState } from '../../entities'
-import { DataGateway } from '../mcts'
+import { ApplyAction, GenerateActions, MCTSNode, MCTSState, Playerwise } from '../../entities'
 import { spliceRandom } from '../../utils'
-import { BestChild } from '../select/best-child/best-child'
+import { DataGateway } from '../mcts'
 
 /**
  *

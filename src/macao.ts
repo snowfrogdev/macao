@@ -1,11 +1,10 @@
-import { DefaultMCTSFacade } from './mcts/mcts'
 import { Controller } from './controller'
 import {
-  Playerwise,
-  GenerateActions,
   ApplyAction,
-  StateIsTerminal,
-  CalculateReward
+  CalculateReward,
+  GenerateActions,
+  Playerwise,
+  StateIsTerminal
 } from './entities'
 
 /**
@@ -71,7 +70,7 @@ export class Macao<State extends Playerwise, Action> {
    * early exploitation. Defaults to `Infinity`.
    * See [Exploration exploitation in Go:
    * UCT for Monte-Carlo Go](https://hal.archives-ouvertes.fr/hal-00115330/document)
-   * @param {number | undefined} config.decayingParam The multiplier by which to decay the rewarard
+   * @param {number | undefined} config.decayingParam The multiplier by which to decay the reward
    * in the backpropagtion phase. Defaults to 1.
    * @param {number | undefined} config.transpoTable The number of buckets in the Transoposition Hash Table.
    */
@@ -123,7 +122,10 @@ export class Macao<State extends Playerwise, Action> {
    * .then(action => {
    *   // Do stuff with the action
    * });
+   * ```
+   * or
    *
+   * ```javascript
    * const someAsyncFunction = async() => {
    *   const action = await macao.getAction(state);
    * }

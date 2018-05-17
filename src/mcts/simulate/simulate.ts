@@ -1,13 +1,11 @@
 import {
-  Playerwise,
-  StateIsTerminal,
-  GenerateActions,
   ApplyAction,
   CalculateReward,
-  MCTSState
+  GenerateActions,
+  Playerwise,
+  StateIsTerminal
 } from '../../entities'
-import { spliceRandom, getRandomIntInclusive } from '../../utils'
-import { DataGateway } from '../mcts'
+import { getRandomIntInclusive } from '../../utils'
 
 /**
  * The Simulate interface provides a playthrough of the game and is

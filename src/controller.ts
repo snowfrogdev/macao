@@ -1,18 +1,17 @@
+import { Collection, HashTable, TranspositionTable } from './data-store'
 import {
-  GenerateActions,
   ApplyAction,
-  StateIsTerminal,
   CalculateReward,
+  GenerateActions,
   Playerwise,
-  MCTSState
+  StateIsTerminal
 } from './entities'
-import { MCTSFacade, DefaultMCTSFacade } from './mcts/mcts'
-import { TranspositionTable, Collection, HashTable } from './data-store'
-import { DefaultSelect, Select } from './mcts/select/select'
-import { DefaultExpand, Expand } from './mcts/expand/expand'
-import { UCB1, DefaultUCB1, DefaultBestChild } from './mcts/select/best-child/best-child'
-import { DefaultSimulate, Simulate } from './mcts/simulate/simulate'
 import { DefaultBackPropagate } from './mcts/back-propagate/back-propagate'
+import { DefaultExpand } from './mcts/expand/expand'
+import { DefaultMCTSFacade, MCTSFacade } from './mcts/mcts'
+import { DefaultBestChild, DefaultUCB1, UCB1 } from './mcts/select/best-child/best-child'
+import { DefaultSelect } from './mcts/select/select'
+import { DefaultSimulate } from './mcts/simulate/simulate'
 
 /**
  *
