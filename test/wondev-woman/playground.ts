@@ -67,13 +67,17 @@ loopFor(gamesLeft).turns(() => {
     // Player 1
     let action!: WondevAction
     if (state.player === -1) {
-      action = isPlayerOneFirstTurn ? player1.getAction(state, 950) : player1.getAction(state)
+      action = isPlayerOneFirstTurn
+        ? player1.getActionSync(state, 950)
+        : player1.getActionSync(state)
       isPlayerOneFirstTurn = false
     }
 
     // Player -1
     if (state.player === 1) {
-      action = isPlayerTwoFirstTurn ? player2.getAction(state, 950) : player2.getAction(state)
+      action = isPlayerTwoFirstTurn
+        ? player2.getActionSync(state, 950)
+        : player2.getActionSync(state)
       isPlayerTwoFirstTurn = false
     }
 

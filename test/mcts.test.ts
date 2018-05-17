@@ -176,12 +176,25 @@ describe('The DefaultSimulate instance', () => {
 })
 
 describe('The DefaultMCTSFacade instance', () => {
-  it('returns an action', () => {
-    const ticTacToeBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-    const state: TicTacToeState = {
-      board: ticTacToeBoard,
-      player: 1
-    }
-    expect(mcts.getAction(state)).toBeDefined()
+  describe('when calling getActionSync', () => {
+    it('returns an action', () => {
+      const ticTacToeBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      const state: TicTacToeState = {
+        board: ticTacToeBoard,
+        player: 1
+      }
+      expect(mcts.getActionSync(state)).toBeDefined()
+    })
+  })
+  describe('when calling getAction', () => {
+    it('returns an action', async () => {
+      const ticTacToeBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+      const state: TicTacToeState = {
+        board: ticTacToeBoard,
+        player: 1
+      }
+      const data = await mcts.getAction(state)
+      expect(data).toBeDefined()
+    })
   })
 })

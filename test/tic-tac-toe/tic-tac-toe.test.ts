@@ -49,12 +49,12 @@ xdescribe('The Macao instance', () => {
             // Player 1
             let action!: TicTacToeMove
             if (state.player === -1) {
-              action = player1.getAction(state)
+              action = player1.getActionSync(state)
             }
 
             // Player -1
             if (state.player === 1) {
-              action = player2.getAction(state)
+              action = player2.getActionSync(state)
             }
 
             if (!action) throw new Error('Looks like both players were skipped.')

@@ -12,7 +12,7 @@ import { BestChild } from './select/best-child/best-child'
 import { Expand } from './expand/expand'
 import { Simulate } from './simulate/simulate'
 import { BackPropagate } from './back-propagate/back-propagate'
-import { spliceRandom, loopFor } from '../utils'
+import { spliceRandom, loopFor, now } from '../utils'
 
 /**
  *
@@ -38,7 +38,8 @@ export interface DataGateway<State, Action> {
  * @template Action
  */
 export interface MCTSFacade<State, Action> {
-  getAction: (state: State, duration?: number) => Action
+  getAction: (state: State, duration?: number) => Promise<Action>
+  getActionSync: (state: State, duration?: number) => Action
 }
 
 /**
@@ -55,16 +56,6 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
   implements MCTSFacade<State, Action> {
   /**
    * Creates an instance of DefaultMCTSFacade.
-   * @param {Select<State, Action>} select_
-   * @param {Expand<State, Action>} expand_
-   * @param {Simulate<State, Action>} simulate_
-   * @param {BackPropagate<State, Action>} backPropagate_
-   * @param {BestChild<State, Action>} bestChild_
-   * @param {GenerateActions<State, Action>} generateActions_
-   * @param {DataGateway<string, MCTSState<State, Action>>} dataStore_
-   * @param {number} duration_
-   * @param {number} explorationParam_
-   * @memberof DefaultMCTSFacade
    */
   constructor(
     private select_: Select<State, Action>,
@@ -78,14 +69,31 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
     private explorationParam_: number
   ) {}
 
-  /**
-   *
-   *
-   * @param {State} state
-   * @returns {Action}
-   * @memberof DefaultMCTSFacade
-   */
-  getAction(state: State, duration?: number): Action {
+  async getAction(state: State, duration?: number): Promise<Action> {
+    const rootNode = this.createRootNode_(state)
+    const startTime = now()
+    const simulation = new Promise(resolve => {
+      const doChunk = () => {
+        if (now() - startTime >= (duration || this.duration_)) {
+          return resolve()
+        }
+        loopFor(30).milliseconds(() => {
+          const node = this.select_.run(rootNode)
+          const score = this.simulate_.run(node.mctsState.state)
+          this.backPropagate_.run(node, score)
+        })
+        setTimeout(doChunk)
+      }
+      doChunk()
+    })
+
+    await simulation
+
+    const bestChild = this.bestChild_.run(rootNode, true)
+    return bestChild!.action as Action
+  }
+
+  getActionSync(state: State, duration?: number): Action {
     const rootNode = this.createRootNode_(state)
     loopFor(duration || this.duration_).milliseconds(() => {
       const node = this.select_.run(rootNode)
@@ -96,14 +104,6 @@ export class DefaultMCTSFacade<State extends Playerwise, Action>
     return bestChild!.action as Action
   }
 
-  /**
-   *
-   *
-   * @private
-   * @param {State} state
-   * @returns {MCTSNode<State, Action>}
-   * @memberof DefaultMCTSFacade
-   */
   private createRootNode_(state: State): MCTSNode<State, Action> {
     // Check to see if state is already in DataStore
     let mctsState = this.dataStore_.get(state)

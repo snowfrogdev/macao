@@ -31,20 +31,6 @@ export class Controller<State extends Playerwise, Action> {
   private decayingParam_!: number
   private transpoTable_!: number | undefined
 
-  /**
-   * Creates an instance of Controller.
-   * @param {{
-   *     generateActions: GenerateActions<State, Action>;
-   *     applyAction: ApplyAction<State, Action>;
-   *     stateIsTerminal: StateIsTerminal<State>;
-   *     calculateReward: CalculateReward<State>;
-   *   }} funcs
-   * @param {{
-   *     duration: number;
-   *     explorationParam?: number;
-   *   }} config
-   * @memberof Controller
-   */
   constructor(
     funcs: {
       generateActions: GenerateActions<State, Action>
@@ -69,21 +55,6 @@ export class Controller<State extends Playerwise, Action> {
     this.init(funcs)
   }
 
-  /**
-   *
-   *
-   * @param {{
-   *       generateActions: GenerateActions<State, Action>;
-   *       applyAction: ApplyAction<State, Action>;
-   *       stateIsTerminal: StateIsTerminal<State>;
-   *       calculateReward: CalculateReward<State>;
-   *     }} funcs
-   * @param {{
-   *       duration: number;
-   *       explorationParam?: number;
-   *     }} config
-   * @memberof Controller
-   */
   init(funcs: {
     generateActions: GenerateActions<State, Action>
     applyAction: ApplyAction<State, Action>
@@ -127,14 +98,11 @@ export class Controller<State extends Playerwise, Action> {
     )
   }
 
-  /**
-   *
-   *
-   * @param {State} state
-   * @returns {Action}
-   * @memberof Controller
-   */
-  getAction(state: State, duration?: number): Action {
+  getAction(state: State, duration?: number): Promise<Action> {
     return this.mcts_.getAction(state, duration)
+  }
+
+  getActionSync(state: State, duration?: number): Action {
+    return this.mcts_.getActionSync(state, duration)
   }
 }

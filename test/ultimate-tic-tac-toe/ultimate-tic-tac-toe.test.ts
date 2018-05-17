@@ -44,7 +44,7 @@ xdescribe('The Macao instance', () => {
             previousAction: { bigRow: -1, bigCol: -1, smallRow: -1, smallCol: -1 }
           }
           while (!uTicTacToeFuncs.stateIsTerminal(state)) {
-            const action = mcts.getAction(state)
+            const action = mcts.getActionSync(state)
             state = uTicTacToeFuncs.applyAction(state, action)
           }
 

@@ -17,14 +17,14 @@ describe('The Macao instance', () => {
     })
   })
 
-  describe('when calling getAction', () => {
+  describe('when calling getActionSync', () => {
     it('should return something', () => {
       const ticTacToeBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
       const state: TicTacToeState = {
         board: ticTacToeBoard,
         player: 1
       }
-      expect(macao.getAction(state)).toBeDefined()
+      expect(macao.getActionSync(state)).toBeDefined()
     })
   })
 })

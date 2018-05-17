@@ -10,7 +10,7 @@ import {
 
 /**
  * The `Macao` class represents a Monte Carlo tree search that can be easily
- * created. It provides, through it's [[getAction]] method, the results of running
+ * created. It provides, through it's [[getAction]] and [[getActionSync]] methods, the results of running
  * the algorithm.
  *
  * ```javascript
@@ -22,13 +22,13 @@ import {
  * }
  *
  * const config = {
- *   duration: 100,
+ *   duration: 30,
  *   explorationParam: 1.414
  * }
  *
  * const macao = new Macao(funcs, config);
  *
- * const action = macao.getAction(state);
+ * const action = macao.getActionSync(state);
  * ```
  * @param State  Generic Type representing a game state object.
  * @param Action  Generic Type representing an action in the game.
@@ -96,17 +96,43 @@ export class Macao<State extends Playerwise, Action> {
     this.controller_ = new Controller(funcs, config)
   }
   /**
-   * Runs the Monte Carlo Tree search algorithm and returns the estimated
-   * best action given the current state of the game.
+   * Runs the Monte Carlo Tree search algorithm synchronously and returns the estimated
+   * best action given the current state of the game. This method will block the event
+   * loop and is suitable if you only wish to run the algorithm for a very short amount
+   * of time (we suggest 33 milliseconds or less) or if you are running the algorithm in
+   * an application that does not have a UI. For other applications, you should use
+   * `Macao.getAction()` instead.
    *
    * ```javascript
-   * const action = macao.getAction(state);
+   * const action = macao.getActionSync(state);
    * ```
    * @param {State} state  Object representing the game state.
    * @param {number | undefined} duration  Run time of the algorithm, in milliseconds.
    * @returns {Action}
    */
-  getAction(state: State, duration?: number): Action {
+  getAction(state: State, duration?: number): Promise<Action> {
     return this.controller_.getAction(state, duration)
+  }
+
+  /**
+   * Runs the Monte Carlo Tree search algorithm asynchronously and returns a promise
+   * that resolves to the estimated best action given the current state of the game.
+   *
+   * ```javascript
+   * macao.getAction(state)
+   * .then(action => {
+   *   // Do stuff with the action
+   * });
+   *
+   * const someAsyncFunction = async() => {
+   *   const action = await macao.getAction(state);
+   * }
+   * ```
+   * @param {State} state  Object representing the game state.
+   * @param {number | undefined} duration  Run time of the algorithm, in milliseconds.
+   * @returns {Promise<Action>}
+   */
+  getActionSync(state: State, duration?: number): Action {
+    return this.controller_.getActionSync(state, duration)
   }
 }

@@ -326,7 +326,7 @@ const testState = {
 }
 
 // const mcts = new Macao(ticTacToeFuncs, {duration: 2000});
-// mcts.getAction(testState); //?
+// mcts.getActionSync(testState); //?
 
 // possibleMovesUTicTacToe(testState) //?
 // stateIsTerminalUTicTacToe(testState) //?
