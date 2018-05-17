@@ -1,6 +1,6 @@
 {
   "name": "macao",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "A general purpose game playing A.I. framework which uses the Monte Carlo tree search algorithm.",
   "keywords": [
     "ai",
