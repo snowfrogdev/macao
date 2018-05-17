@@ -22,7 +22,7 @@ const funcs = {
 };
 
 const config = {
-  duration: 100
+  duration: 30
   // ...
 };
 
@@ -44,6 +44,9 @@ You can read the API documentation [here](https://neoflash1979.github.io/macao/)
 
 ## [Contributing](#contributing)
 Please take a look at our [contributing](https://github.com/Neoflash1979/macao/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
+
+## [Changelog](#changelog)
+See [CHANGELOG.md](https://github.com/Neoflash1979/macao/blob/master/CHANGELOG.md)
 
 ## [License](#license)
 
