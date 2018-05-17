@@ -4,7 +4,8 @@ import {
   CalculateReward,
   GenerateActions,
   Playerwise,
-  StateIsTerminal
+  StateIsTerminal,
+  GameRules
 } from './entities'
 import { DefaultBackPropagate } from './mcts/back-propagate/back-propagate'
 import { DefaultExpand } from './mcts/expand/expand'
@@ -31,12 +32,7 @@ export class Controller<State extends Playerwise, Action> {
   private transpoTable_!: number | undefined
 
   constructor(
-    funcs: {
-      generateActions: GenerateActions<State, Action>
-      applyAction: ApplyAction<State, Action>
-      stateIsTerminal: StateIsTerminal<State>
-      calculateReward: CalculateReward<State>
-    },
+    funcs: GameRules<State, Action>,
     config: {
       duration: number
       explorationParam?: number
@@ -54,12 +50,7 @@ export class Controller<State extends Playerwise, Action> {
     this.init(funcs)
   }
 
-  init(funcs: {
-    generateActions: GenerateActions<State, Action>
-    applyAction: ApplyAction<State, Action>
-    stateIsTerminal: StateIsTerminal<State>
-    calculateReward: CalculateReward<State>
-  }) {
+  init(funcs: GameRules<State, Action>) {
     // This is where we bootstrap the library according to initialization options.
     let data: Collection<State, Action>
     if (this.transpoTable_) {

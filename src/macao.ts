@@ -4,7 +4,8 @@ import {
   CalculateReward,
   GenerateActions,
   Playerwise,
-  StateIsTerminal
+  StateIsTerminal,
+  DefaultGameRules
 } from './entities'
 
 /**
@@ -92,7 +93,8 @@ export class Macao<State extends Playerwise, Action> {
       transpoTable?: number
     }
   ) {
-    this.controller_ = new Controller(funcs, config)
+    const gameRules = new DefaultGameRules(funcs)
+    this.controller_ = new Controller(gameRules, config)
   }
   /**
    * Runs the Monte Carlo Tree search algorithm synchronously and returns the estimated

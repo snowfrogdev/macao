@@ -94,7 +94,6 @@ export interface StateIsTerminal<State extends Playerwise> {
  * ```
  * @param State An object representing the state of the game.
  */
-
 export interface CalculateReward<State extends Playerwise> {
   (state: State, player: number): number
 }
@@ -178,8 +177,8 @@ export class DefaultGameRules<State extends Playerwise, Action>
     return this.calculateReward_
   }
   set calculateReward(value: CalculateReward<State>) {
-    if (typeof value !== 'function' || value.length !== 1) {
-      throw new TypeError('Expected calculateReward to be a function that takes one argument.')
+    if (typeof value !== 'function' || value.length !== 2) {
+      throw new TypeError('Expected calculateReward to be a function that takes two arguments.')
     }
     this.calculateReward_ = value
   }

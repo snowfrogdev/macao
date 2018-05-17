@@ -7,7 +7,7 @@ describe('The GameRules instance', () => {
         generateActions: state => state,
         applyAction: (state, action) => state,
         stateIsTerminal: state => true,
-        calculateReward: state => state
+        calculateReward: (state, player) => state
       }
     })
     it('should validate that generateActions is a function that takes one argument', () => {
@@ -43,15 +43,15 @@ describe('The GameRules instance', () => {
         'Expected stateIsTerminal to be a function that takes one argument.'
       )
     })
-    it('should validate that calculateReward is a function that takes one argument', () => {
+    it('should validate that calculateReward is a function that takes two arguments', () => {
       expect(new DefaultGameRules(funcs).calculateReward).toBe(funcs.calculateReward)
       funcs.calculateReward = ''
       expect(() => new DefaultGameRules(funcs)).toThrow(
-        'Expected calculateReward to be a function that takes one argument.'
+        'Expected calculateReward to be a function that takes two arguments.'
       )
-      funcs.calculateReward = (state, extraParam) => state
+      funcs.calculateReward = (state, player, extraParam) => state
       expect(() => new DefaultGameRules(funcs)).toThrow(
-        'Expected calculateReward to be a function that takes one argument.'
+        'Expected calculateReward to be a function that takes two arguments.'
       )
     })
   })
