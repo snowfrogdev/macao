@@ -85,6 +85,10 @@
     },
     "collectCoverage": true
   },
+  "release": {
+    "verifyConditions": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/github", "@semantic-release/git"],
+    "prepare": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git"]
+  },
   "devDependencies": {
     "@types/jest": "^22.2.3",
     "@types/node": "^9.6.7",
