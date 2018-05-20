@@ -9,6 +9,7 @@
     "macaojs",
     "macao.js",
     "monte carlo tree search",
+    "mcts",
     "minimax",
     "general game playing",
     "game ai"
