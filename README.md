@@ -22,6 +22,8 @@ Perhaps:
 
 **Macao** is a simple framework that allows the addition of powerful game AI to your JavaScript game with minimal configuration and coding. It is based on the powerful, yet simple, [Monte Carlo Tree Search](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) algorithm. **Macao** makes it possible for you to add AI to your game, even if you are a bad player and don't understand the strategy. All you need to know are the rules of the game, that's it, and that's all **Macao** needs to know in order to work it's magic.
 
+Although we plan to quickly expand the types of games it supports, at the moment **Macao** is compatible with two player, turn-based, [perfect information](https://en.wikipedia.org/wiki/Perfect_information), [deterministic](http://www.whatgamesare.com/determinism.html) games. Well, that was a mouthful. Basically this means that it should work with any game similar to Chess, Checkers, Tic-Tac-Toe, Nine Men's Morris etc.
+
 ## [How to use **Macao**](#how)
 
 ```javascript
@@ -58,9 +60,11 @@ npm install macao --save
 You can read the API documentation [here](https://neoflash1979.github.io/macao/).
 
 ## [Contributing](#contributing)
+
 Please take a look at our [contributing](https://github.com/Neoflash1979/macao/blob/master/CONTRIBUTING.md) guidelines if you're interested in helping!
 
 ## [Changelog](#changelog)
+
 See [CHANGELOG.md](https://github.com/Neoflash1979/macao/blob/master/CHANGELOG.md)
 
 ## [License](#license)
