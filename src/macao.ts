@@ -52,7 +52,7 @@ export class Macao<State extends Playerwise, Action> {
    * }
    *
    * const config = {
-   *   duration: 100,
+   *   duration: 30,
    *   explorationParam: 1.414
    * }
    *

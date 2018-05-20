@@ -3,24 +3,22 @@ import { spliceRandom } from '../../utils'
 import { DataGateway } from '../mcts'
 
 /**
- *
+ * The Expand interface represents the Expansion part of the Monte Carlo Tree
+ * Search algorithm. This part of the algorithm deals with adding a children Node
+ * to a previously selected Node.
  * @hidden
  * @internal
- * @export
- * @interface Expand
- * @template State
- * @template Action
  */
 export interface Expand<State, Action> {
   run: (node: MCTSNode<State, Action>) => MCTSNode<State, Action>
 }
 
 /**
- *
+ * The DefaultExpand class provides the standard Monte Carlo Tree Search algorithm
+ * with the expansion phase. Through it's [[run]] method, when supplied with a tree
+ * node, it will expand the tree by adding a children node.
  * @hidden
  * @internal
- * @template State
- * @template Action
  */
 export class DefaultExpand<State extends Playerwise, Action> implements Expand<State, Action> {
   constructor(

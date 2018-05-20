@@ -8,10 +8,6 @@ import { BestChild, UCB1 } from './best-child/best-child'
  * in the tree to run a simulation on.
  * @hidden
  * @internal
- * @export
- * @interface Select
- * @template State
- * @template Action
  */
 export interface Select<State, Action> {
   run: (node: MCTSNode<State, Action>) => MCTSNode<State, Action>
@@ -23,9 +19,6 @@ export interface Select<State, Action> {
  * node, it will provide another tree node from which to run a simulation.
  * @hidden
  * @internal
- * @implements {Select<State, Action>}
- * @template State
- * @template Action
  */
 export class DefaultSelect<State extends Playerwise, Action> implements Select<State, Action> {
   constructor(
