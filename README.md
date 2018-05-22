@@ -49,11 +49,17 @@ const macao = new Macao(funcs, config);
 const action = macao.getAction(state);
 ```
 
+For more indepth information on how to use **Macao**, please see the [general documentation](https://github.com/Neoflash1979/macao/wiki).
+
 ## [Installation](#installation)
 
-```shell
+```bash
 npm install macao --save
 ```
+
+## [General Documentation](#general-documentation)
+
+You can read the general documenation [here](https://github.com/Neoflash1979/macao/wiki).
 
 ## [API](#api)
 
