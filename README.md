@@ -75,4 +75,4 @@ See [CHANGELOG.md](https://github.com/Neoflash1979/macao/blob/master/CHANGELOG.m
 
 ## [License](#license)
 
-Macao is provided under the [MIT License](https://github.com/Neoflash1979/macao/blob/master/LICENSE).
+**Macao** is provided under the [MIT License](https://github.com/Neoflash1979/macao/blob/master/LICENSE).
