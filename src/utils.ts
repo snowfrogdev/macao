@@ -10,7 +10,7 @@
 export let now: () => number
 try {
   if (typeof window !== 'undefined') {
-    now = performance.now
+    now = () => performance.now()
   } else {
     const { performance } = require('perf_hooks')
     now = performance.now
